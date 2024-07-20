@@ -1,32 +1,56 @@
-import React, { useEffect, useState } from 'react';
-const categorias = () => {
-    const [places, setPlaces] = useState([]);
-    // implementar api de google
-    URL = `https://places.googleapis.com/v1/places:searchText`
-    useEffect(() => {
-        const fetchPlaces = async () => {
-            const response = await fetch(URL, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Goog-api-key': 'AIzaSyAt3oTHy0DfMpfp4aED_V5_Lj9SQKerUbE',
-                    'X-Goog-fieldMask': 'places.displayName,places.formattedAddress,places.priceLevel'
-                },
-                body: {
-                    '"textQuery": "Banco in Encarnacion, Paraguay"'
-                }
-            });
-            const data = await response.json();
-            setPlaces(data);
-        };
-        fetchPlaces();
+import  { useEffect, useState } from 'react';
 
-    }, []);
-    return(
-        <div>
-            <h1>CATEGORIAS</h1>
-            {places.map(places => <p>{places.displayName}</p>)}
-        </div>
-    )
+const Categorias = () => {
+  const [places, setPlaces] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchPlaces = async () => {
+      try {
+        const response = await fetch(
+            `http://localhost:8001/api/maps/search-places`,
+            {
+              method: 'POST',
+              headers: {
+                  authorization: `Bearer ${localStorage.getItem('authToken')}`,
+              },
+              body: JSON.stringify({
+                textQuery: 'Restausante, Encarnacion, Paraguay',
+              }),
+            }
+          );
+  
+          if (!response.ok) {
+            throw new Error('la api no responde correctamente');
+          }
+    
+          const data = await response.json();
+          setPlaces(data.results || []);
+          console.log(places);
+          
+        } catch (error) {
+          setError(error.message);
+          console.error('Error fetching data:', error.message);
+        }
+    };
+
+    fetchPlaces();
+  }, []);
+
+  return (
+    <div>
+      <h1>CATEGORIAS</h1>
+      {error && <p>Error: {error}</p>}
+      {places.length > 0 ? (
+        places.map((place, index) => (
+          <p key={index}>
+            {place.displayName.text}</p>  
+        ))
+      ) : (
+        <p>Lugar no encontrado</p>
+      )}
+    </div>
+  );
 };
-export default categorias;
+
+export default Categorias;

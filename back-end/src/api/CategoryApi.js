@@ -1,48 +1,47 @@
 const express = require("express");
 const multer = require("multer");
+const path = require('path');
 const router = express.Router();
 const categoryService = require("../services/CategoryService");
 
 // Configurar almacenamiento para Multer
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, '/home/tilleria/Downloads')
+    cb(null, path.join(__dirname, '..', 'images')); // Cambia la ruta según la estructura de tu proyecto
   },
   filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-    cb(null, file.fieldname + '-' + uniqueSuffix + '.' + file.originalname.split('.').pop())
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
   }
 });
 
 const upload = multer({ storage: storage });
 
-router.get("/categorylist", async (request, response) => {
+router.get("/categorylist", async (req, res) => {
   try {
     const categorias = await categoryService.getCategories();
-    response.status(200).json(categorias);
+    res.status(200).json(categorias);
   } catch (error) {
     console.log(error.message);
-    response
-      .status(500)
-      .json({ message: "Error al intentar listar las categorías" });
+    res.status(500).json({ message: "Error al intentar listar las categorías" });
   }
 });
 
-router.post("/create", upload.single('imagen'), async (request, response) => {
+router.post("/create", upload.single('imagen'), async (req, res) => {
   try {
     const categoryData = {
-      nombre: request.body.nombre,
-      imagen: request.file ? request.file.path : null
+      nombre: req.body.nombre,
+      imagen: req.file ? `/images/${req.file.filename}` : null
     };
-    const res = await categoryService.createCategory(categoryData);
+    const response = await categoryService.createCategory(categoryData);
 
-    if (!res.success) {
-      return response.status(400).json({ message: res.message });
+    if (!response.success) {
+      return res.status(400).json({ message: response.message });
     }
 
-    response.status(200).json({ message: res.message });
+    res.status(200).json({ message: response.message });
   } catch (error) {
-    response.status(500).json({ message: "Error al intentar guardar " });
+    res.status(500).json({ message: "Error al intentar guardar" });
   }
 });
 

@@ -17,11 +17,6 @@ export const LoginPage = () => {
         }),
       });
       const data = await response.json();
-      if (data.success) {
-        localStorage.setItem("authToken", data.token);
-      } else {
-        navigate("/dashboard");
-      }
     } catch (error) {
       console.error("Error fetching data:", error);
     }

@@ -3,7 +3,7 @@ const router = express.Router();
 const mapsService = require('../services/MapsService');
 const jwtUtils = require('../utils/JwtUtil');
 
-router.use(jwtUtils.authenticateToken);
+/*router.use(jwtUtils.authenticateToken);*/
 
 router.post('/search-places', async (request, response) => {
 
