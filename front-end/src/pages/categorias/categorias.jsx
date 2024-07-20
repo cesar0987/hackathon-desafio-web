@@ -1,32 +1,46 @@
 import React, { useEffect, useState } from 'react';
-const categorias = () => {
+
+const Categorias = () => {
     const [places, setPlaces] = useState([]);
-    // implementar api de google
-    URL = `https://places.googleapis.com/v1/places:searchText`
+    const API_KEY = 'AIzaSyAt3oTHy0DfMpfp4aED_V5_Lj9SQKerUbE';
+    const URL = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=Bancos+en+Encarnacion,+Paraguay&key=${API_KEY}`;
+
     useEffect(() => {
         const fetchPlaces = async () => {
-            const response = await fetch(URL, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Goog-api-key': 'AIzaSyAt3oTHy0DfMpfp4aED_V5_Lj9SQKerUbE',
-                    'X-Goog-fieldMask': 'places.displayName,places.formattedAddress,places.priceLevel'
-                },
-                body: {
-                    '"textQuery": "Banco in Encarnacion, Paraguay"'
-                }
-            });
-            const data = await response.json();
-            setPlaces(data);
-        };
-        fetchPlaces();
+            try {
+                const response = await fetch(URL, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
 
-    }, []);
-    return(
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const data = await response.json();
+                setPlaces(data.results);
+            } catch (error) {
+                console.error('Fetch error:', error);
+            }
+        };
+
+        fetchPlaces();
+    }, [URL]);
+
+    return (
         <div>
             <h1>CATEGORIAS</h1>
-            {places.map(places => <p>{places.displayName}</p>)}
+            {places.length > 0 ? (
+                places.map((place) => (
+                    <p key={place.place_id}>{place.name}</p>
+                ))
+            ) : (
+                <p>No se encontraron lugares.</p>
+            )}
         </div>
-    )
+    );
 };
-export default categorias;
+
+export default Categorias;
