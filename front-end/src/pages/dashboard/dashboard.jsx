@@ -70,33 +70,38 @@ export const Dashboard = () => {
         <h2>Categoria</h2>
         <nav className="contentNav">
           <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/about">About</Link></li>
-            <li><Link to="/contact">Contact</Link></li>
-            <li><button onClick={handleLogout}>Logout</button></li>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/about">About</Link>
+            </li>
+            <li>
+              <Link to="/contact">Contact</Link>
+            </li>
+            <li>
+              <button onClick={handleLogout}>Logout</button>
+            </li>
           </ul>
         </nav>
       </header>
 
       <section>
-        {loading ? (
-          <p>Loading...</p>
-        ) : error ? (
-          <p>Error: {error}</p>
-        ) : (
-          <ul>
-            {places.map(({ _id, nombre }) => (
-              <li key={_id}>
-                <h3>{nombre}</h3>
-                <img
-                  src={getImageUrl(nombre)}
-                  alt={nombre}
-                  style={{ width: "100px", height: "auto" }}
-                />
-              </li>
-            ))}
-          </ul>
-        )}
+        {loading && <p>Loading...</p>}
+        {error && <p>Error: {error}</p>}
+        <ul>
+          {places.map(({ _id, nombre, imagen }) => (
+            <li key={_id}>
+              <h3>{nombre}</h3>
+              <img
+                src={imagen}
+                alt={nombre}
+                style={{ width: "100px", height: "auto" }}
+              />
+              {/* Add more details as needed */}
+            </li>
+          ))}
+        </ul>
       </section>
       <Categorias />
     </>
