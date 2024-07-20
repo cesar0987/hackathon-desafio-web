@@ -28,12 +28,8 @@ export const RegisterPage = () => {
           password,
         }),
       });
-      const data = await response.json();
-      if (data.success) {
+      const data = await response.json()
         navigate("/");
-      } else {
-        setError(data.message);
-      }
     } catch (error) {
       console.error("Error registering:", error);
       setError("El registro falló. Por favor, inténtelo de nuevo.");

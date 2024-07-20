@@ -64,7 +64,7 @@ export const Dashboard = () => {
               <Link to="/contact">Contact</Link>
             </li>
             <li>
-              <button onClick={handleLogout}>Logout</button>
+              <button onClick={handleLogout} className="logout">Logout</button>
             </li>
           </ul>
         </nav>
@@ -82,6 +82,7 @@ export const Dashboard = () => {
                 alt={nombre}
                 style={{ width: "100px", height: "auto" }}
               />
+              <Link to={`/categoria/${nombre}}`}>Ver más</Link>
               {/* Add more details as needed */}
             </li>
           ))}
