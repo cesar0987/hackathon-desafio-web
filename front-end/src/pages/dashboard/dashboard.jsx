@@ -2,6 +2,8 @@ import { Link } from "react-router-dom"; // Assuming you're using React Router
 import "./dashboard.css";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Categorias from "../categorias/categorias";
+import SearchPlaces from "../searchplaces/searchplaces";
 
 export const Dashboard = () => {
   const navigate = useNavigate();
@@ -84,7 +86,10 @@ export const Dashboard = () => {
             </li>
           ))}
         </ul>
-      </section>
+        
+        <Categorias/>
+        <SearchPlaces />
+          </section>
     </>
   );
 };
