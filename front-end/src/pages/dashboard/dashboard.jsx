@@ -53,16 +53,11 @@ export const Dashboard = () => {
         <h1>Turismo</h1>
         <h2>Categoria</h2>
         <nav className="contentNav">
-          <ul>
+          <ul>  
             <li>
-              <Link to="/">Home</Link>
+              <Link to="/itinerario">Itinerario</Link>
             </li>
-            <li>
-              <Link to="/about">About</Link>
-            </li>
-            <li>
-              <Link to="/contact">Contact</Link>
-            </li>
+
             <li>
               <button onClick={handleLogout} className="logout">Logout</button>
             </li>

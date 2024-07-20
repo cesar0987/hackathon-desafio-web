@@ -1,0 +1,56 @@
+/* Itinerary.css */
+.itinerary-container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+  }
+  
+  .itinerary-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .itinerary-list {
+    margin-bottom: 20px;
+  }
+  
+  .itinerary-list ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .itinerary-list li {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+  }
+  
+  .itinerary-form form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .itinerary-form label {
+    margin-bottom: 10px;
+  }
+  
+  .itinerary-form input,
+  .itinerary-form textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 4px;
+  }
+  
+  .itinerary-form button {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .itinerary-form button:hover {
+    background-color: #0056b3;
+  }
+  
